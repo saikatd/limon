@@ -17,5 +17,5 @@ ruptime="$( uptime)"
     x=$(echo $ruptime | sed s/,//g| awk '{ print $3 " (hh:mm)"}')
   fi
 #echo $x
-printf '{"hostname":%s,"used memory":%s,"total memory":%s,"cpu usage":%s}\n' "$Hostname" "$used_memory" "total_memory" "$CPU" 
+printf '{"hostname":"%s","used memory":%f,"total memory":%f,"cpu usage":%f}\n' "$Hostname" "$used_memory" "$total_memory" "$CPU" 
 
