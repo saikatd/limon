@@ -1,3 +1,0 @@
-sshpass -p 'icehouse01' ssh -o StrictHostKeyChecking=no root@172.21.207.170  'bash -s' < /var/www/html/saikat/172.21.207.170_health_check > /var/www/html/saikat/172.21.207.170_details.json &
-sshpass -p 'pas' ssh -o StrictHostKeyChecking=no pas@172.21.207.180  'bash -s' < /var/www/html/saikat/172.21.207.180_health_check > /var/www/html/saikat/172.21.207.180_details.json &
-sshpass -p 'openstack1' ssh -o StrictHostKeyChecking=no root@172.21.207.173  'bash -s' < /var/www/html/saikat/172.21.207.173_health_check > /var/www/html/saikat/172.21.207.173_details.json &
