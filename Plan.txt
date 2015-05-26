@@ -1,0 +1,13 @@
+PLanning
+
+Document.ready{
+	
+	loop through the text file (ip_address username password) and populate the number of dashboards
+
+	function onSubmit_of_form(ip)
+	{
+		add one more dashboard to existing set of dashboards
+		associate an ajax function with each of the dashboards
+		assocaite a timer for the ajax function to be called at regular intervals
+	}
+}
