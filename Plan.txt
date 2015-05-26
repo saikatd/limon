@@ -11,3 +11,10 @@ Document.ready{
 		assocaite a timer for the ajax function to be called at regular intervals
 	}
 }
+
+parameters to be added:
+
+uptime
+sliding df-h output
+bandwidth
+OS version

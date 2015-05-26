@@ -4,3 +4,5 @@ sdfdsf sdf sdf sdf
 172.21.209 76788 u7ujjkjkjkj
 172.21.207.180 pas pas
 192.168.144.128 root ubuntu
+172.21.207.180 root root
+135.112.23.76 ubuntu ubuntu

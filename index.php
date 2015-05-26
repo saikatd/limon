@@ -9,16 +9,72 @@
 		<script type="text/javascript" src="js/materialize.min.js"></script>
 		<script type="text/javascript" src="js/smoothie.js"></script>
 	</head>
-	<body>
-		<div class="row">
-				<div id="main">
-				</div>
-			</div>
+	<body>	
 
+	<!-- Modal Trigger -->
+  <div class="row">
+  	<div class="col s12 offset-s9">
+  		<a class="waves-effect waves-light btn-large modal-trigger" onclick="openModal_helper()"><i class="mdi-content-add-circle"></i>Add server for Monitoring</a>
+	</div>
+</div>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Enter the Server Details</h4>
+      
+
+		<div class="row">
+      		<div class="col s6 offset-s3  ">
+      			<div class="card blue-grey darken-1">
+            		<div class="card-content white-text">
+        				<form class="col s12"  method="POST" action="readfile.php">
+      						<div class="row">
+        						<div class="input-field col s12">
+          							<input id="ip_address" name="ip_address" type="text" class="validate">
+          							<label for="ip_address">Ip_Address</label>
+       							</div>
+      						</div>
+	      					<div class="row">
+	        					<div class="input-field col s6">
+			          				<input id="uname" name="uname" type="text" class="validate">
+			          				<label for="username">UserName</label>
+	        					</div>
+	        					<div class="input-field col s6">
+			          				<input id="password" type="password" name="password" class="validate">
+			          				<label for="password">Password</label>
+			        			</div>
+	      					</div>
+		      				<div class="row">
+		        				<div class="input-field col s12">
+					                <button class="btn waves-effect waves-light" type="submit" name="action">Submit<i class="mdi-content-send right"></i>
+					                </button>			
+		       					</div>
+		      				</div>
+   						</form>
+      				</div>
+    			</div>
+  			</div>
+  		</div>
+    </div>
+    <div class="modal-footer">
+      <!-- <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a> -->
+    </div>
+  </div>
+
+  	
+		<div class="row">
+			<div id="main">
+			</div>
+		</div>
+	
 
 		<script type="text/javascript">
 
 var dashboard_count=0;
+
+function openModal_helper(){
+	$('#modal1').openModal();
+}
 
 function create_dashboard_obj(ip)
 {
@@ -87,17 +143,19 @@ ajax_function_generalized=function(dashboard_obj)
 			rowstring+="<div style='width:200px; height:8px;background-color: #F0ED00'>";
 			rowstring+="<div style='width:"+percent_memory+"%;height:8px;background-color: #1BA612;'></div></div>";
 			rowstring+="</li>";
-			//cpu
-			rowstring+="<li class='collection-item avatar'>";
-			rowstring+="<img src='images/Cpu-icon.png' alt='' class='circle'>";
-			rowstring+="<span class=title'>Load</span>";
-			rowstring+="<p>"+cpu+"</p>";
-			rowstring+="</li>";
+			
 			//current time stamp
 			rowstring+="<li class='collection-item avatar'>";
 			rowstring+="<img src='images/Clock-icon.png' alt='' class='circle'>";
 			rowstring+="<span class=title'>Time</span>";
 			rowstring+="<p>"+time+"</p>";
+			rowstring+="</li>";
+
+			//cpu
+			rowstring+="<li class='collection-item avatar'>";
+			rowstring+="<img src='images/Cpu-icon.png' alt='' class='circle'>";
+			rowstring+="<span class=title'>Load</span>";
+			rowstring+="<p>"+cpu+"</p>";
 			rowstring+="</li>";
 			$('#graph_div_'+dashboard_obj.dashboard_id).show();
 			$('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html(rowstring);
