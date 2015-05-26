@@ -60,10 +60,31 @@ smoothie2.streamTo(document.getElementById("graph2"));
 
 var line2 = new TimeSeries();
 
+
+function on_new_ip(ip) {
+	// specs from ip
+	dbObj = get_dashboard_obj(specs)
+	dbObj.get_ajax_every(3)
+}
+
+function get_dashboard_obj(specs) {
+	// returns a dashboard object
+	// object has its own html, ajax call etc
+
+
+	update_html(dbObj)
+	return dbObj
+}
+
+function update_html(dbObj) {
+	// use dbObj to fill in new html.
+	// get dbObj id, name, ip, etc
+}
+
 function get_json_dashboard1()
 {
 	$.ajax({
-		url: '172.21.207.134_details.json',
+		url: 'backend/135.243.94.118_details.json',
 		datatype:"datatype",
 
 		success: function(response){
@@ -127,7 +148,7 @@ function get_json_dashboard1()
 function get_json_dashboard2()
 {
 	$.ajax({
-		url: '172.21.207.134_details.json',
+		url: 'backend/172.21.207.134_details.json',
 		datatype:"datatype",
 
 		success: function(response){
@@ -199,9 +220,6 @@ $(document).ready(function() { 	/* documnet is ready now */
 			 	get_json_dashboard2();
   				
   				},2000);
-
-
-			
 
 });
 
