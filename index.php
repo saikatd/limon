@@ -41,7 +41,9 @@ function create_dashboard_obj(ip)
 	card_skeleton+='<div id=parameter_list_'+this.dashboard_id+'>';
 	card_skeleton+='<ul class="collection">';
 	card_skeleton+='</ul>';
+	card_skeleton+='<div id=graph_div_'+this.dashboard_id+'>';
 	card_skeleton+='<canvas id=graph_'+this.dashboard_id+' width="337" height="100"></canvas>';
+	card_skeleton+='</div>';
 	card_skeleton+='</div>';
 	card_skeleton+='</div>';
 	$(card_skeleton_container).append(card_skeleton);
@@ -97,7 +99,7 @@ ajax_function_generalized=function(dashboard_obj)
 			rowstring+="<span class=title'>Time</span>";
 			rowstring+="<p>"+time+"</p>";
 			rowstring+="</li>";
-			
+			$('#graph_div_'+dashboard_obj.dashboard_id).show();
 			$('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html(rowstring);
 			$('#card_'+dashboard_obj.dashboard_id).removeClass("card red lighten-1").addClass("card purple darken-4");
 
@@ -108,9 +110,10 @@ ajax_function_generalized=function(dashboard_obj)
 		},
 
 		error:function(){
-			$("#mini_1_large").removeClass("card purple darken-4").addClass("card red lighten-1");
-			$("#mini_1 ul").html('');
-			setTimeout(ajax_function,1000);  
+			$('#card_'+dashboard_obj.dashboard_id).removeClass("card purple darken-4").addClass("card red lighten-1");
+			$('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html('');
+			$('#graph_div_'+dashboard_obj.dashboard_id).hide();
+			
 		},
 		cache:false
 	});
@@ -120,14 +123,16 @@ $(document).ready(function(){
 
 	var obj1 = new create_dashboard_obj("135.243.94.118");
 	var obj2 = new create_dashboard_obj("172.21.207.134");
+	var obj3 = new create_dashboard_obj("172.21.207.22");
 
 	ajax_function_generalized(obj1);
 	ajax_function_generalized(obj2);
+	ajax_function_generalized(obj3);
 
 	setInterval(function() {
 			 	ajax_function_generalized(obj1);
 				ajax_function_generalized(obj2);
-  				
+  				ajax_function_generalized(obj3);
   				},2000);
 
 });
