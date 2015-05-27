@@ -12,19 +12,20 @@
 
 	<!-- updating the data to ip list -->
 	 <?php
-     if(isset($_POST['submit'])) {
+     if($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$ip_address = $_POST["ip_address"];
 	$uname = $_POST["uname"];
 	$password = $_POST["password"];
 
-	$text=$ip_address ." " .$uname ." " .$password;
+	$text="\n".$ip_address ." " .$uname ." " .$password;
 	//echo $text;
 
 	//$myfile = fopen("test.txt", "w") or die("Unable to open file!");
 	//fwrite($myfile, $ip_address);
-	file_put_contents("backend/ip_list", $text . PHP_EOL, FILE_APPEND);
+	file_put_contents("backend/ip_list", $text, FILE_APPEND);
 
 	//fclose($myfile);
+	header('Location:index.php');
 	}
 	?>
 
@@ -50,8 +51,9 @@
 
 	<!-- Modal Trigger -->
   <div class="row">
-  	<div class="col s12 offset-s9">
-  		<a class="waves-effect waves-light btn-large modal-trigger" onclick="openModal_helper()"><i class="mdi-content-add-circle"></i>Add server for Monitoring</a>
+  	<div class="col 12 offset-s3">
+  		<a class="waves-effect waves-light btn-large modal-trigger" onclick="openModal_helper()"><i class="mdi-content-add-circle"></i>Add Server to watch</a>
+  		<a class="waves-effect waves-light btn-large red darken-4 modal-trigger" onclick=""><i class="mdi-content-remove-circle-outline"></i>Remove server from watch</a>
 	</div>
 </div>
   <!-- Modal Structure -->
@@ -83,7 +85,7 @@
 	      					</div>
 		      				<div class="row">
 		        				<div class="input-field col s12">
-					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit" onclick="">Submit<i class="mdi-content-send right"></i>
+					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit" onclick="sendContactForm()">Submit<i class="mdi-content-send right"></i>
 					                </button>			
 		       					</div>
 		      				</div>
@@ -124,9 +126,11 @@ function create_dashboard_obj(ip)
 	
 	//creating card related html elements
 	var card_skeleton_container = $(document.createElement('div'));
-	var card_skeleton=	"";
+	card_skeleton_container.attr("id","card_skeleton_container_"+this.dashboard_id);
+	var card_skeleton="";
 	card_skeleton+='<div class="col s3">';
-	card_skeleton+='<div class="card purple darken-4" id=card_'+this.dashboard_id+'>';
+	card_skeleton+='<div class="card red lighten-2"  id=card_'+this.dashboard_id+'>';
+	card_skeleton+='<a class="btn-floating btn waves-effect waves-light red accent-4 right" onclick="remove_dashboard('+this.dashboard_id+')"><i class="mdi-navigation-cancel right"></i></a>';
 	card_skeleton+='<div class="card-content white-text">';
 	card_skeleton+='<span class="card-title">'+this.ip_address+'</span>';
 	card_skeleton+='<p>Dashboard</p>';
@@ -140,13 +144,19 @@ function create_dashboard_obj(ip)
 	card_skeleton+='</div>';
 	card_skeleton+='</div>';
 	$(card_skeleton_container).append(card_skeleton);
-	$('#main').append(card_skeleton_container);
+	$('#main').append(card_skeleton_container).hide().fadeIn(800);;
 
 	this.smoothie = new SmoothieChart({millisPerPixel:32,maxValue:10,minValue:0,timestampFormatter:SmoothieChart.timeFormatter});
 	
 	this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id));
 	// Data
 	this.line = new TimeSeries();
+	$('#graph_div_'+this.dashboard_id).hide();
+}
+
+function checker()
+{
+	alert("jhakaas");
 }
 
 ajax_function_generalized=function(dashboard_obj)
@@ -196,7 +206,7 @@ ajax_function_generalized=function(dashboard_obj)
 			rowstring+="</li>";
 			$('#graph_div_'+dashboard_obj.dashboard_id).show();
 			$('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html(rowstring);
-			$('#card_'+dashboard_obj.dashboard_id).removeClass("card red lighten-1").addClass("card purple darken-4");
+			$('#card_'+dashboard_obj.dashboard_id).removeClass("card red lighten-2").addClass("card purple darken-4");
 
 			dashboard_obj.line.append(time, cpu);
 			// Add to SmoothieChart
@@ -205,7 +215,7 @@ ajax_function_generalized=function(dashboard_obj)
 		},
 
 		error:function(){
-			$('#card_'+dashboard_obj.dashboard_id).removeClass("card purple darken-4").addClass("card red lighten-1");
+			$('#card_'+dashboard_obj.dashboard_id).removeClass("card purple darken-4").addClass("card red lighten-2");
 			$('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html('');
 			$('#graph_div_'+dashboard_obj.dashboard_id).hide();
 			
@@ -213,32 +223,35 @@ ajax_function_generalized=function(dashboard_obj)
 		cache:false
 	});
 }
+var dashboards = [];
+
+function remove_dashboard(dashboard_id)
+{
+	$('#card_skeleton_container_'+dashboard_id).delay(100).fadeOut(1000);
+	
+	dashboard_count-=1;
+}
 
 $(document).ready(function(){
 
-	/*var obj1 = new create_dashboard_obj("135.243.94.118");
-	var obj2 = new create_dashboard_obj("172.21.207.134");
-	var obj3 = new create_dashboard_obj("172.21.207.22");
-
-	ajax_function_generalized(obj1);
-	ajax_function_generalized(obj2);
-	ajax_function_generalized(obj3);
-*/
+	
 	var no_of_lines = '<?php echo $no_of_lines; ?>';
 	var ip_array = <?php echo json_encode($ip_array); ?>;
 
-	var dashboards = [];
+	
+
 	var i;
 	for (i = 0; i < no_of_lines ; i++) 
 	{ 
     	dashboards.push(new create_dashboard_obj(ip_array[i]))
     }
-	setInterval(function() {
-			 	/*ajax_function_generalized(obj1);
-				ajax_function_generalized(obj2);
-  				ajax_function_generalized(obj3);*/
-  				},2000);
-
+    setInterval(function() 
+    {
+			 	for (i = 0; i < no_of_lines ; i++) 
+				{ 
+			    	ajax_function_generalized(dashboards[i]);
+			    }
+  	},2000);
 });
 		</script>
 	</body>
