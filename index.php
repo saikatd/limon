@@ -9,7 +9,24 @@
 		<script type="text/javascript" src="js/materialize.min.js"></script>
 		<script type="text/javascript" src="js/smoothie.js"></script>
 	</head>
+	 <?php
+     if(isset($_POST['submit'])) {
+	$ip_address = $_POST["ip_address"];
+	$uname = $_POST["uname"];
+	$password = $_POST["password"];
+
+	$text=$ip_address ." " .$uname ." " .$password;
+	//echo $text;
+
+	//$myfile = fopen("test.txt", "w") or die("Unable to open file!");
+	//fwrite($myfile, $ip_address);
+	file_put_contents("test.txt", $text . PHP_EOL, FILE_APPEND);
+
+	//fclose($myfile);
+	}
+	?>
 	<body>	
+    
 
 	<!-- Modal Trigger -->
   <div class="row">
@@ -27,7 +44,7 @@
       		<div class="col s6 offset-s3  ">
       			<div class="card blue-grey darken-1">
             		<div class="card-content white-text">
-        				<form class="col s12"  method="POST" action="readfile.php">
+        				<form class="col s12"  method="post" action="<?=$_SERVER['PHP_SELF']?>">
       						<div class="row">
         						<div class="input-field col s12">
           							<input id="ip_address" name="ip_address" type="text" class="validate">
@@ -46,7 +63,7 @@
 	      					</div>
 		      				<div class="row">
 		        				<div class="input-field col s12">
-					                <button class="btn waves-effect waves-light" type="submit" name="action">Submit<i class="mdi-content-send right"></i>
+					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit">Submit<i class="mdi-content-send right"></i>
 					                </button>			
 		       					</div>
 		      				</div>
