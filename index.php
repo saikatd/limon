@@ -9,6 +9,8 @@
 		<script type="text/javascript" src="js/materialize.min.js"></script>
 		<script type="text/javascript" src="js/smoothie.js"></script>
 	</head>
+
+	<!-- updating the data to ip list -->
 	 <?php
      if(isset($_POST['submit'])) {
 	$ip_address = $_POST["ip_address"];
@@ -20,11 +22,29 @@
 
 	//$myfile = fopen("test.txt", "w") or die("Unable to open file!");
 	//fwrite($myfile, $ip_address);
-	file_put_contents("test.txt", $text . PHP_EOL, FILE_APPEND);
+	file_put_contents("backend/ip_list", $text . PHP_EOL, FILE_APPEND);
 
 	//fclose($myfile);
 	}
 	?>
+
+	<!-- reading the ip_list and providing the array of ip -->
+	<?php
+
+                $myfile = fopen("backend/ip_list", "r") or die("Unable to open file!");
+                $no_of_lines=0;
+                while(!feof($myfile)) 
+                {
+                                $line = fgets($myfile);
+                                $pieces = explode(" ", $line); // substitute explode substr
+                                $ip_list[$no_of_lines]=$pieces[0]; 
+                                $no_of_lines++;
+                }
+   
+   // $ip_array = array('172.21.207.135', '172.21.207.134');
+    $ip_array = $ip_list;
+	?>
+
 	<body>	
     
 
@@ -63,7 +83,7 @@
 	      					</div>
 		      				<div class="row">
 		        				<div class="input-field col s12">
-					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit">Submit<i class="mdi-content-send right"></i>
+					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit" onclick="">Submit<i class="mdi-content-send right"></i>
 					                </button>			
 		       					</div>
 		      				</div>
@@ -196,18 +216,27 @@ ajax_function_generalized=function(dashboard_obj)
 
 $(document).ready(function(){
 
-	var obj1 = new create_dashboard_obj("135.243.94.118");
+	/*var obj1 = new create_dashboard_obj("135.243.94.118");
 	var obj2 = new create_dashboard_obj("172.21.207.134");
 	var obj3 = new create_dashboard_obj("172.21.207.22");
 
 	ajax_function_generalized(obj1);
 	ajax_function_generalized(obj2);
 	ajax_function_generalized(obj3);
+*/
+	var no_of_lines = '<?php echo $no_of_lines; ?>';
+	var ip_array = <?php echo json_encode($ip_array); ?>;
 
+	var dashboards = [];
+	var i;
+	for (i = 0; i < no_of_lines ; i++) 
+	{ 
+    	dashboards.push(new create_dashboard_obj(ip_array[i]))
+    }
 	setInterval(function() {
-			 	ajax_function_generalized(obj1);
+			 	/*ajax_function_generalized(obj1);
 				ajax_function_generalized(obj2);
-  				ajax_function_generalized(obj3);
+  				ajax_function_generalized(obj3);*/
   				},2000);
 
 });
