@@ -10,25 +10,8 @@
 		<script type="text/javascript" src="js/smoothie.js"></script>
 	</head>
 
-	<!-- updating the data to ip list -->
-	 <?php
-     if($_SERVER['REQUEST_METHOD'] === 'POST') {
-	$ip_address = $_POST["ip_address"];
-	$uname = $_POST["uname"];
-	$password = $_POST["password"];
-
-	$text="\n".$ip_address ." " .$uname ." " .$password;
-	//echo $text;
-
-	//$myfile = fopen("test.txt", "w") or die("Unable to open file!");
-	//fwrite($myfile, $ip_address);
-	file_put_contents("backend/ip_list", $text, FILE_APPEND);
-
-	//fclose($myfile);
-	header('Location:index.php');
-	}
-	?>
-
+	
+	
 	<!-- reading the ip_list and providing the array of ip -->
 	<?php
 
@@ -66,7 +49,7 @@
       		<div class="col s6 offset-s3  ">
       			<div class="card blue-grey darken-1">
             		<div class="card-content white-text">
-        				<form class="col s12"  method="post" action="<?=$_SERVER['PHP_SELF']?>">
+        				<form class="col s12"  method="post" action="">
       						<div class="row">
         						<div class="input-field col s12">
           							<input id="ip_address" name="ip_address" type="text" class="validate">
@@ -85,7 +68,7 @@
 	      					</div>
 		      				<div class="row">
 		        				<div class="input-field col s12">
-					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit" onclick="sendContactForm()">Submit<i class="mdi-content-send right"></i>
+					                <button class="btn waves-effect waves-light" type="submit" id="submit" name="submit" onclick="">Submit<i class="mdi-content-send right"></i>
 					                </button>			
 		       					</div>
 		      				</div>
@@ -109,11 +92,52 @@
 
 		<script type="text/javascript">
 
-var dashboard_count=0;
+//global variables
+var dashboard_count=0; //stores the count of the dashboard objects
+var dashboards = []; //stores the dashboard objects
 
 function openModal_helper(){
+
 	$('#modal1').openModal();
 }
+
+
+
+$(function(){
+		$("#submit").click(function() {
+
+			var ip_textcontent = $("#ip_address").val();
+			var uname_textcontent = $("#uname").val();
+			var password_textcontent = $("#password").val();
+			var dataString = 'content='+ ip_textcontent+' '+uname_textcontent+' '+password_textcontent;
+			if(ip_textcontent=='')
+			{
+				alert("Enter some text..");
+				$("#content").focus();
+			}
+			else
+			{
+				$.ajax({
+					type: "POST",
+					url: "form_to_ip_list.php",
+					data: dataString,
+					cache: true,
+					success: function(html)
+					{
+						$("#show").after(html);
+						document.getElementById('ip_address').value='';
+						document.getElementById('uname').value='';
+						document.getElementById('password').value='';
+						$('#modal1').closeModal();
+						dashboards.push(new create_dashboard_obj(ip_textcontent));
+					}  
+				});
+
+			}
+			return false;
+		});
+
+}); 
 
 function create_dashboard_obj(ip)
 {
@@ -223,13 +247,10 @@ ajax_function_generalized=function(dashboard_obj)
 		cache:false
 	});
 }
-var dashboards = [];
 
 function remove_dashboard(dashboard_id)
 {
 	$('#card_skeleton_container_'+dashboard_id).delay(100).fadeOut(1000);
-	
-	dashboard_count-=1;
 }
 
 $(document).ready(function(){
