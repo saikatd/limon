@@ -4,7 +4,7 @@
 
 ## Screen Shot: ##
 
-![Screenshot](Dashboard ScreenShot.JPG)
+![Screenshot](https://github.com/saikatd/limon/blob/master/Dashboard%20ScreenShot.JPG)
 
 A **light-weight** (~3.25MB) and simple **live** monitoring tool for **real-time monitoring** of performance of **multiple servers** on a **single dashboard**.
 
