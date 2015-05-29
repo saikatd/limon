@@ -16,7 +16,7 @@ its really very easy - just 3 step process!
 
  - Copy all the files in /var/www/html/monitoring_tool_name directory of the central monitoring server(the server who is going to host the tool)
  - cd  /var/www/html/monitoring_tool_name and run 
- - run #./ping_test_and_script_generation &
+ - run ./ping_test_and_script_generation &
 
  Thats it!! you have done your job. Now its time for him to take over!
 
