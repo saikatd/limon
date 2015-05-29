@@ -4,7 +4,7 @@
 
 ## Screen Shot: ##
 
-![Screenshot](https://bitbucket.org/repo/XLKEzR/images/641155708-Dashboard%20ScreenShot.JPG)
+![Screenshot](Dashboard ScreenShot.JPG)
 
 A **light-weight** (~3.25MB) and simple **live** monitoring tool for **real-time monitoring** of performance of **multiple servers** on a **single dashboard**.
 
