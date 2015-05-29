@@ -18,4 +18,3 @@ ruptime="$( uptime)"
   fi
 #echo $x
 printf '{"hostname":"%s","used memory":%f,"total memory":%f,"cpu usage":%f}\n' "$Hostname" "$used_memory" "$total_memory" "$CPU" 
-

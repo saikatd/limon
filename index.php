@@ -207,7 +207,7 @@ function create_dashboard_obj(ip)
     card_skeleton+='<ul class="collection">';
     card_skeleton+='</ul>';
     card_skeleton+='<div id=graph_div_'+this.dashboard_id+'>';
-    card_skeleton+='<canvas id=graph_'+this.dashboard_id+' width="337" height="100"></canvas>';
+    card_skeleton+='<canvas id=graph_'+this.dashboard_id+' width="375" height="150"></canvas>';
     card_skeleton+='</div>';
     card_skeleton+='</div>';
     card_skeleton+='</div>';
@@ -233,6 +233,7 @@ ajax_function_generalized=function(dashboard_obj)
     
         $.ajax({
         url: 'backend/'+dashboard_obj.ip_address+'_details.json',
+        timeout: 10000,
         datatype:"datatype",
 
         success: function(response){
@@ -306,7 +307,7 @@ $(document).ready(function(){
         for (i = 0; i < dashboards.length ; i++) { 
             ajax_function_generalized(dashboards[i]);
         }
-    },2000);
+    },5000);
 });
         </script>
     </body>

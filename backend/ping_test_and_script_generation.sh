@@ -7,6 +7,8 @@ while true; do
     `cat /dev/null > $location/ip_status_list`
     `cat /dev/null > $location/consolidated_health_check_scripts`
     while read line; do
+        if [ "$line" != "" ]
+            then 
             ip=`echo $line | awk '{print $1}'`
             ping -c 2 $ip
             if [ $? == 0 ]
@@ -15,6 +17,7 @@ while true; do
             else
                     echo "n "$line >> $location/ip_status_list
             fi
+        fi
     done < $location/ip_list
 
     #using the ip_status_list to create server dedicated health check script
@@ -44,3 +47,4 @@ while true; do
     echo "consolidated_health_check_scripts is being run..."
     sleep 3
 done
+
