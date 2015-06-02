@@ -1,14 +1,10 @@
 # LiMON #
 
--------
 
-## Screen Shot: ##
-
-![Screenshot](https://github.com/saikatd/limon/blob/master/Dashboard%20ScreenShot.JPG)
-
-A **light-weight** (~3.25MB) and simple **live** monitoring tool for **real-time monitoring** of performance of **multiple servers** on a **single dashboard**.
+A **light-weight** and simple **live** monitoring tool for **real-time monitoring** of performance of **multiple servers** on a **single dashboard**.
 
 ------
+
 
 ## Dependancies: ##
 
@@ -20,21 +16,12 @@ A **light-weight** (~3.25MB) and simple **live** monitoring tool for **real-time
 
 its really very easy - just 3 step process!
 
- - Create a directory under /var/www/html/ - say monitoring_tool__file_name
- - Copy all the repositories to /var/www/html/monitoring_tool__file_name directory of the central monitoring server(the server who is going to host the tool)
- - cd  /var/www/html/monitoring_tool__file_name and run nohup ./ping_test_and_script_generation.sh &
+ - Copy
+ all the files in /var/www/html/monitoring_tool_name directory of the central monitoring server(the server who is going to host the tool)
+ - cd  /var/www/html/monitoring_tool_name and run 
+ - run ./ping_test_and_script_generation &
 
-Thats it!! you have done your job. Now its time for him to take over!
-
-*WARNING*
-dont forget to run chmod 777 * under the /var/www/html/monitoring_tool__file_name directory to give permissions to the script
- 
-Inorder to stop the script
-
- - cd /var/www/html/monitoring_tool__file_name
- - ./shut_down_script
-
- And Voila!! the backend is not running anymore. However, the browser will continue to show the previously generated data
+ Thats it!! you have done your job. Now its time for him to take over!
 
 ---------
 

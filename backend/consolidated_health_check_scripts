@@ -1,0 +1,2 @@
+sshpass -p 'lss@lucent' ssh -o StrictHostKeyChecking=no bgw@172.21.207.160  'bash -s' < /var/www/html/saikat/limon/backend/172.21.207.160_health_check > /var/www/html/saikat/limon/backend/172.21.207.160_details.json &
+sshpass -p 'pas' ssh -o StrictHostKeyChecking=no pas@172.21.207.180  'bash -s' < /var/www/html/saikat/limon/backend/172.21.207.180_health_check > /var/www/html/saikat/limon/backend/172.21.207.180_details.json &
