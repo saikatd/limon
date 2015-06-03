@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <!-- import materialize.css -->
         <link rel="stylesheet" type="text/css" href="css/materialize.min.css"media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
         <!-- import jQuerry before material.js -->
         <script type="text/javascript" src="jquery/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -261,7 +262,11 @@ function create_dashboard_obj(ip)
     card_skeleton+='<ul class="collection">';
     card_skeleton+='</ul>';
     card_skeleton+='<div id=graph_div_'+this.dashboard_id+'>';
+<<<<<<< HEAD
     card_skeleton+='<canvas id=graph_'+this.dashboard_id+' ></canvas>';
+=======
+    card_skeleton+='<canvas id=graph_'+this.dashboard_id+'></canvas>';
+>>>>>>> 34d520f35c70a867feac43ba7ab0a000a25949ce
     card_skeleton+='</div>';
     card_skeleton+='</div>';
     card_skeleton+='</div>';
