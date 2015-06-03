@@ -7,7 +7,7 @@ A **light-weight** and simple **live** monitoring tool for **real-time monitorin
 
 ## ScreenShot: ##
 
-![ScreenShot](https://raw.github.com/saikatd/master/Dashboard ScreenShot.JPG)
+![ScreenShot](https://raw.github.com/saikatd/limon/master/Dashboard ScreenShot.JPG)
 
 -------
 
