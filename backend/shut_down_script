@@ -5,3 +5,4 @@ shopt -s extglob
 #`rm !$location/ping_test_and_script_generation.sh|$location/server_health_template.sh|$location/shut_down_script|$location/ip_list|$location/consolidated_health_check_scripts`
 `rm -f !(ping_test_and_script_generation.sh|server_health_template.sh|shut_down_script|ip_list)`
 shopt -u extglob
+

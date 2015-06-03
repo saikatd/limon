@@ -28,7 +28,18 @@
     ?>
 
     <body>  
-    
+<div class="navbar-fixed">
+   <nav class="cyan darken-2">
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center" >LiMON - Live Server Monitor for U</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+       
+        <li><a href="sass.html">Contact Us</a></li>
+       </ul>
+     
+    </div>
+  </nav>
+</div>
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content">
@@ -75,7 +86,7 @@
 
     
         <div class="row">
-            <div id="main">
+            <div id="main" >
             </div>
         </div>
 
@@ -113,9 +124,9 @@ $(function(){
             var uname_textcontent = $("#uname").val();
             var password_textcontent = $("#password").val();
             var dataString = 'content='+ ip_textcontent+' '+uname_textcontent+' '+password_textcontent;
-            if(ip_textcontent=='')
+            if(validateIP(ip_textcontent)== false)
             {
-                alert("Enter the IP ADDRESS please..");
+                
                 $("#ip_address").focus();
             }
             else if(uname_textcontent=='')
@@ -127,6 +138,14 @@ $(function(){
             {
                 alert("Enter the PASSWORD please..");
                 $("#password").focus();
+            }
+            else if(isUsedIP(ip_textcontent)== true)
+            {
+                alert("Server already monitoring");
+                document.getElementById('ip_address').value='';
+                document.getElementById('uname').value='';
+                document.getElementById('password').value='';
+              
             }
             else
             {
@@ -155,6 +174,41 @@ $(function(){
 
 }); 
 
+function validateIP(ip) {
+    if (ip == ""){
+        alert("Enter the IP ADDRESS please..");
+        return false;
+    }
+    //Check Format
+    var ip = ip.split(".");
+ 
+    if (ip.length != 4) {
+        alert("Enter valid IP ADDRESS please..");
+        return false;
+    }
+ 
+    //Check Numbers
+    for (var c = 0; c < 4; c++) {
+        //Perform Test
+        if ( ip[c] <= -1 || ip[c] > 255 || 
+             isNaN(parseFloat(ip[c])) || 
+             !isFinite(ip[c])  || 
+             ip[c].indexOf(" ") !== -1 ) {
+            alert("Enter valid IP ADDRESS please..");
+             return false;
+         
+        }
+    }
+    return true;
+}
+// to check newly added ipaddress in iplist 
+function isUsedIP(ip){
+   for (var c = 0; c < ip_array.length; c++) {
+     if (ip_array[c]==ip)
+        return true;
+   }
+   return false;
+}
 remove_dashboard=function(id)
 {
     counter=0;
@@ -197,24 +251,24 @@ function create_dashboard_obj(ip)
     card_skeleton_container.attr("id","card_skeleton_container_"+this.dashboard_id);
     var card_skeleton="";
     card_skeleton+='<div class="col s3">';
-    card_skeleton+='<div class="card red lighten-2" data-ip='+this.ip_address+' id=card_'+this.dashboard_id+'>';
+    card_skeleton+='<div class="card deep-orange lighten-2" data-ip='+this.ip_address+' id=card_'+this.dashboard_id+'>';
     card_skeleton+='<a class="btn-floating btn waves-effect waves-light red accent-4 right" onclick="remove_dashboard('+this.dashboard_id+')"><i class="mdi-navigation-cancel right"></i></a>';
     card_skeleton+='<div class="card-content white-text">';
-    card_skeleton+='<span class="card-title">'+this.ip_address+'</span>';
-    card_skeleton+='<p>Dashboard</p>';
+    card_skeleton+='<span class="card-title">Dashboard</span>';
+    card_skeleton+='<p>'+this.ip_address+'</p>';
     card_skeleton+='</div>';
     card_skeleton+='<div id=parameter_list_'+this.dashboard_id+'>';
     card_skeleton+='<ul class="collection">';
     card_skeleton+='</ul>';
     card_skeleton+='<div id=graph_div_'+this.dashboard_id+'>';
-    card_skeleton+='<canvas id=graph_'+this.dashboard_id+' width="337" height="100"></canvas>';
+    card_skeleton+='<canvas id=graph_'+this.dashboard_id+' ></canvas>';
     card_skeleton+='</div>';
     card_skeleton+='</div>';
     card_skeleton+='</div>';
     $(card_skeleton_container).append(card_skeleton);
     $('#main').append(card_skeleton_container).hide().fadeIn(800);;
 
-    this.smoothie = new SmoothieChart({millisPerPixel:32,maxValue:10,minValue:0,timestampFormatter:SmoothieChart.timeFormatter});
+    this.smoothie = new SmoothieChart({millisPerPixel:32,maxValue:10,minValue:0});
     
     this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id));
     // Data
@@ -233,16 +287,21 @@ ajax_function_generalized=function(dashboard_obj)
     
         $.ajax({
         url: 'backend/'+dashboard_obj.ip_address+'_details.json',
+        timeout: 10000,
         datatype:"datatype",
 
         success: function(response){
             rowstring="";
             var hostname=response['hostname'];
+            var os_version=response['os_version'];
             var used_memory=response['used memory'];
             var total_memory=response['total memory'];
             var percent_memory=used_memory/total_memory*100;
+            var current_time=response['time'];
+            var up_time=response['up_time'];
             var cpu=response['cpu usage'];
             var time=new Date($.now());
+            
             
 
             //hostname
@@ -251,6 +310,14 @@ ajax_function_generalized=function(dashboard_obj)
             rowstring+="<span class=title'>Hostname</span>";
             rowstring+="<p>"+hostname+"</p>";
             rowstring+="</li>";
+
+             //OS_Version
+            rowstring+="<li class='collection-item avatar'>";
+            rowstring+="<img src='images/OSVersion-icon-linux.png' alt='' class='circle'>";
+            rowstring+="<span class=title'>OS Version</span>";
+            rowstring+="<p>"+os_version+"</p>";
+            rowstring+="</li>";
+
             //used_memory
             rowstring+="<li class='collection-item avatar'>";
             rowstring+="<img src='images/Ram-icon.png' alt='' class='circle'>";
@@ -260,11 +327,18 @@ ajax_function_generalized=function(dashboard_obj)
             rowstring+="<div style='width:"+percent_memory+"%;height:8px;background-color: #1BA612;'></div></div>";
             rowstring+="</li>";
             
-            //current time stamp
+            //current_time
             rowstring+="<li class='collection-item avatar'>";
             rowstring+="<img src='images/Clock-icon.png' alt='' class='circle'>";
-            rowstring+="<span class=title'>Time</span>";
-            rowstring+="<p>"+time+"</p>";
+            rowstring+="<span class=title'>Current Time</span>";
+            rowstring+="<p>"+current_time+"</p>";
+            rowstring+="</li>";
+
+             //up_time
+            rowstring+="<li class='collection-item avatar'>";
+            rowstring+="<img src='images/Uptime-icon.png' alt='' class='circle'>";
+            rowstring+="<span class=title'>UP Time</span>";
+            rowstring+="<p>"+up_time+"</p>";
             rowstring+="</li>";
 
             //cpu
@@ -273,18 +347,20 @@ ajax_function_generalized=function(dashboard_obj)
             rowstring+="<span class=title'>Load</span>";
             rowstring+="<p>"+cpu+"</p>";
             rowstring+="</li>";
+
             $('#graph_div_'+dashboard_obj.dashboard_id).show();
             $('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html(rowstring);
-            $('#card_'+dashboard_obj.dashboard_id).removeClass("card red lighten-2").addClass("card purple darken-4");
+            $('#card_'+dashboard_obj.dashboard_id).removeClass("card deep-orange lighten-2").addClass("card  cyan");
 
-            dashboard_obj.line.append(time, cpu);
+            //dashboard_obj.line.append(time , cpu);
+            dashboard_obj.line.append(time , cpu);
             // Add to SmoothieChart
             dashboard_obj.smoothie.addTimeSeries(dashboard_obj.line, {lineWidth:2.0,strokeStyle:'#00ff00'});
             
         },
 
         error:function(){
-            $('#card_'+dashboard_obj.dashboard_id).removeClass("card purple darken-4").addClass("card red lighten-2");
+            $('#card_'+dashboard_obj.dashboard_id).removeClass("card cyan").addClass("card deep-orange lighten-2");
             $('#parameter_list_'+dashboard_obj.dashboard_id+' ul').html('');
             $('#graph_div_'+dashboard_obj.dashboard_id).hide();
             
@@ -306,7 +382,7 @@ $(document).ready(function(){
         for (i = 0; i < dashboards.length ; i++) { 
             ajax_function_generalized(dashboards[i]);
         }
-    },2000);
+    },5000);
 });
         </script>
     </body>

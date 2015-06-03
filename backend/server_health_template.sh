@@ -10,12 +10,8 @@ DISK=`df |  awk '{ if (NR==2) print $1 "        " $5 }'`
 #echo  "$DISK"
 
 
-ruptime="$( uptime)"
-  if $(echo $ruptime | grep -E "min|days" >/dev/null); then
-    x=$(echo $ruptime | awk '{ print $3 $4}')
-  else
-    x=$(echo $ruptime | sed s/,//g| awk '{ print $3 " (hh:mm)"}')
-  fi
+OS_Version=`uname -mrs`
+Time=`date`
+UP_Time=`uptime | awk '{ print $3 " " $4}'`
 #echo $x
-printf '{"hostname":"%s","used memory":%f,"total memory":%f,"cpu usage":%f}\n' "$Hostname" "$used_memory" "$total_memory" "$CPU" 
-
+printf '{"hostname":"%s","used memory":%f,"total memory":%f,"cpu usage":%f,"time":"%s","os_version":"%s","up_time":"%s"}\n' "$Hostname" "$used_memory" "$total_memory" "$CPU" "$Time" "$OS_Version" "$UP_Time"

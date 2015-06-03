@@ -10,6 +10,10 @@
  /**
  MATERIALIZE CSS
  **/
+ canvas {
+   width: 85%;
+  height: 90%;
+}
 .materialize-red.lighten-5 {
   background-color: #fdeaeb !important; }
 
@@ -1682,7 +1686,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
  * 1. Correct `inline-block` display not defined in IE 8/9.
  * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
  */
-audio, canvas, progress, video {
+audio, progress, video {
   display: inline-block;
   /* 1 */
   vertical-align: baseline;
