@@ -12,6 +12,5 @@ DISK=`df |  awk '{ if (NR==2) print $1 "        " $5 }'`
 
 OS_Version=`uname -mrs`
 Time=`date`
-UP_Time=`uptime | awk '{ print $3 " " $4}'`
-#echo $x
+UP_Time=`uptime -p | cut -d " " -f2-`
 printf '{"hostname":"%s","used memory":%f,"total memory":%f,"cpu usage":%f,"time":"%s","os_version":"%s","up_time":"%s"}\n' "$Hostname" "$used_memory" "$total_memory" "$CPU" "$Time" "$OS_Version" "$UP_Time"

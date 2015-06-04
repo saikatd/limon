@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <!-- import materialize.css -->
+        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" type="text/css" href="css/materialize.min.css"media="screen,projection"/>
-        <link rel="stylesheet" type="text/css" href="css/main.css"/>
         <!-- import jQuerry before material.js -->
         <script type="text/javascript" src="jquery/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -18,14 +18,18 @@
         $myfile = fopen("backend/ip_list", "r") or die("There seems to be a problem. The server data couldn't be accessed right now!");
         $_err_internal = 'FILE_OPEN_FAILED';
         $ip_list = array();
+        $nick_name_list = array();
         while(!feof($myfile)) {
             $line = fgets($myfile);
             $pieces = explode(" ", $line); 
             if (count($pieces) > 1) {
                 $ip_list[] = $pieces[0];
+                $nick_name_list[] = $pieces[3];
             }
         }
         $ip_array = $ip_list;
+        $nick_name_arry = $nick_name_list;
+
     ?>
 
     <body>  
@@ -35,7 +39,7 @@
       <a href="#" class="brand-logo center" >LiMON - Live Server Monitor for U</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
        
-        <li><a href="sass.html">Contact Us</a></li>
+        <li><a href="mailto:saikat.de@alcatel-lucent.com;basivi_reddy.duggempudi@alcatel-lucent.com?Subject=Feedback%20or%20Bug%20Report" target="_top">Contact Us</a></li>
        </ul>
      
     </div>
@@ -54,8 +58,14 @@
                         <form class="col s12"  method="post" action="">
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <input id="nick_name" name="nick_name" type="text" class="validate">
+                                    <label for="nick_name">Nick Name</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
                                     <input id="ip_address" name="ip_address" type="text" class="validate">
-                                    <label for="ip_address">Ip_Address</label>
+                                    <label for="ip_address">IP Address</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -106,6 +116,8 @@ var dashboards = []; //stores the dashboard objects
 
 //ip_array to store the ip address fetched from ip_list containing the (ip_address username password)
 var ip_array = <?php echo json_encode($ip_array); ?>;
+var nick_name_arry = <?php echo json_encode($nick_name_arry); ?>;
+//alert(nick_name_arry[0]);
 var no_of_lines = ip_array.length;
 
 //opens the modal box containing the form
@@ -121,11 +133,17 @@ function openModal_helper() {
 $(function(){
         $("#submit").click(function() {
 
+            var nick_name = $("#nick_name").val();
             var ip_textcontent = $("#ip_address").val();
             var uname_textcontent = $("#uname").val();
             var password_textcontent = $("#password").val();
-            var dataString = 'content='+ ip_textcontent+' '+uname_textcontent+' '+password_textcontent;
-            if(validateIP(ip_textcontent)== false)
+            var dataString = 'content='+ ip_textcontent+' '+uname_textcontent+' '+password_textcontent+' '+nick_name;
+            if(nick_name=='')
+            {
+                alert("Enter the Nick NAME please..");
+                $("#nick_name").focus();
+            }
+            else if(validateIP(ip_textcontent)== false)
             {
                 
                 $("#ip_address").focus();
@@ -142,10 +160,7 @@ $(function(){
             }
             else if(isUsedIP(ip_textcontent)== true)
             {
-                alert("Server already monitoring");
-                document.getElementById('ip_address').value='';
-                document.getElementById('uname').value='';
-                document.getElementById('password').value='';
+                alert("Already Used IP");
               
             }
             else
@@ -158,12 +173,13 @@ $(function(){
                     success: function(html)
                     {
                         $("#show").after(html);
+                        document.getElementById('nick_name').value='';
                         document.getElementById('ip_address').value='';
                         document.getElementById('uname').value='';
                         document.getElementById('password').value='';
                         $('#modal1').closeModal();
 
-                        var obj= new create_dashboard_obj(ip_textcontent);
+                        var obj= new create_dashboard_obj(ip_textcontent,nick_name);
                         dashboards.push(obj);
                         Materialize.toast('Adding '+ip_textcontent+' to watch :)', 3000, 'rounded') // 'rounded' is the class I'm removing the dashboard
                     }  
@@ -202,7 +218,7 @@ function validateIP(ip) {
     }
     return true;
 }
-// to check newly added ipaddress in iplist 
+
 function isUsedIP(ip){
    for (var c = 0; c < ip_array.length; c++) {
      if (ip_array[c]==ip)
@@ -238,13 +254,14 @@ remove_dashboard=function(id)
 
 }
 
-function create_dashboard_obj(ip)
+function create_dashboard_obj(ip,nick_name)
 {
     //incrementing the dashboard count with object creation
     dashboard_count=dashboard_count+1;
     
     //object specifications
     this.ip_address = ip;
+    this.nick_name = nick_name;
     this.dashboard_id=dashboard_count;
     
     //creating card related html elements
@@ -255,27 +272,23 @@ function create_dashboard_obj(ip)
     card_skeleton+='<div class="card deep-orange lighten-2" data-ip='+this.ip_address+' id=card_'+this.dashboard_id+'>';
     card_skeleton+='<a class="btn-floating btn waves-effect waves-light red accent-4 right" onclick="remove_dashboard('+this.dashboard_id+')"><i class="mdi-navigation-cancel right"></i></a>';
     card_skeleton+='<div class="card-content white-text">';
-    card_skeleton+='<span class="card-title">Dashboard</span>';
+    card_skeleton+='<span class="card-title">'+this.nick_name+'</span>';
     card_skeleton+='<p>'+this.ip_address+'</p>';
     card_skeleton+='</div>';
     card_skeleton+='<div id=parameter_list_'+this.dashboard_id+'>';
     card_skeleton+='<ul class="collection">';
     card_skeleton+='</ul>';
+    card_skeleton+='</div>';
+    card_skeleton+='</div>';
     card_skeleton+='<div id=graph_div_'+this.dashboard_id+'>';
-<<<<<<< HEAD
-    card_skeleton+='<canvas id=graph_'+this.dashboard_id+' ></canvas>';
-=======
-    card_skeleton+='<canvas id=graph_'+this.dashboard_id+'></canvas>';
->>>>>>> 34d520f35c70a867feac43ba7ab0a000a25949ce
-    card_skeleton+='</div>';
-    card_skeleton+='</div>';
+    card_skeleton+='<center><canvas id=graph_'+this.dashboard_id+' ></canvas><center>';
     card_skeleton+='</div>';
     $(card_skeleton_container).append(card_skeleton);
     $('#main').append(card_skeleton_container).hide().fadeIn(800);;
 
-    this.smoothie = new SmoothieChart({millisPerPixel:32,maxValue:10,minValue:0});
+    this.smoothie = new SmoothieChart({maxValueScale:1.5,scaleSmoothing:1,minValue:0,labels:{fontSize:16}});
     
-    this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id));
+    this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id),2000);
     // Data
     this.line = new TimeSeries();
     $('#graph_div_'+this.dashboard_id).hide();
@@ -335,7 +348,7 @@ ajax_function_generalized=function(dashboard_obj)
             //current_time
             rowstring+="<li class='collection-item avatar'>";
             rowstring+="<img src='images/Clock-icon.png' alt='' class='circle'>";
-            rowstring+="<span class=title'>Current Time</span>";
+            rowstring+="<span class=title'>Server Time</span>";
             rowstring+="<p>"+current_time+"</p>";
             rowstring+="</li>";
 
@@ -381,7 +394,7 @@ $(document).ready(function(){
     
     var i;
     for (i = 0; i < no_of_lines ; i++) {
-        dashboards.push(new create_dashboard_obj(ip_array[i]));
+        dashboards.push(new create_dashboard_obj(ip_array[i],nick_name_arry[i]));
     }
     setInterval(function() {
         for (i = 0; i < dashboards.length ; i++) { 
