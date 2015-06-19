@@ -15,7 +15,8 @@ A **light-weight** and simple **live** monitoring tool for **real-time monitorin
 
 ### 1. Download LiMON
 Download the most recent version of LiMON. Extract the files into directory ``` /var/www/html/ ```. So after this the directory structure will be like this:
-.
+```
+
 ├── /var/www/html/LiMON
 │                 ├── /backend
 │                 ├── /css
@@ -28,6 +29,7 @@ Download the most recent version of LiMON. Extract the files into directory ``` 
 |                 ├── delete_ip_address_from_ip_list.php
 │                 └── README.md 
 
+```
 ### 2. Getting Started  
 Below steps have been performed adn tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
 
