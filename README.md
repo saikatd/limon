@@ -11,27 +11,34 @@ A **light-weight** and simple **live** monitoring tool for **real-time monitorin
 
 -------
 
-## Dependancies: ##
-
-- RPM: ssh-pass -v1.0.5 (supplied with the app for convenience)
-
--------
 ## Installation
 
 ### 1. Download LiMON
+Download the most recent version of LiMON. Extract the files into directory ``` /var/www/html/ ```. So after this the directory structure will be like this:
+.
+├── /var/www/html/LiMON
+│                 ├── /backend
+│                 ├── /css
+│                 ├── /font
+│                 ├── /jquery
+│                 ├── /js
+│                 ├── /images
+|                 ├── index.php
+|                 ├── form_to_ip_list.php
+|                 ├── delete_ip_address_from_ip_list.php
+│                 └── README.md 
 
-Clone the git repo: 
-```shell
-git clone git@github.com:saikatd/limon.git
-```
-### 2. Getting Started 
+### 2. Getting Started  
 Below steps have been performed adn tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
+
+- RPM: ssh-pass -v1.0.5 (supplied with the app for convenience)
+
 #### PHP
 Install PHP
 ```
 sudo apt-get install php5
 ```
-Start sshpass rpm
+Install sshpass rpm
 ```
 sudo apt-get install -y sshpass rpm
 ```
@@ -40,25 +47,23 @@ Install Apache
 ```
 sudo apt-get install apache2
 ```
-
-
-
-## Make it Run: ##
-
-its really very easy - just 3 step process!
-
- - Copy
- all the files in /var/www/html/monitoring_tool_name directory of the central monitoring server(the server who is going to host the tool)
- - cd  /var/www/html/monitoring_tool_name/backend and run 
- - run nohup ./ping_test_and_script_generation &
-
  Finally, restart Apache:
  ```
 sudo service apache2 restart
 ```
-than browse http://your_server_ip/monitoring_tool_name
 
- Thats it!! you have done your job. Now its time for him to take over!
+
+## Make it Run: ##
+
+its really very easy - just 2 step process!
+
+ - ``` cd  /var/www/html/LiMON/backend ``` 
+ - run ``` nohup ./ping_test_and_script_generation & ```
+
+
+then browse http://your_server_ip/LiMON
+
+That's it!! you have done your job. Now its time for him to take over!
 
 ---------
 
