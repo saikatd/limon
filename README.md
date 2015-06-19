@@ -18,14 +18,14 @@ A **light-weight** and simple **live** monitoring tool for **real-time monitorin
 -------
 ## Installation
 
-### 1. Download Linux Dash
+### 1. Download LiMON
 
 Clone the git repo: 
 ```shell
 git clone git@github.com:saikatd/limon.git
 ```
-### 2. Start Linux Dash
-See the section for your platform. 
+### 2. Getting Started 
+Below steps have been performed adn tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
 #### PHP
 Install PHP
 ```
