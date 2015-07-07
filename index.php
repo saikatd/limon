@@ -288,7 +288,7 @@ function create_dashboard_obj(ip,nick_name)
 
     this.smoothie = new SmoothieChart({maxValueScale:1.5,scaleSmoothing:1,minValue:0,labels:{fontSize:16}});
     
-    this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id),2000);
+    this.smoothie.streamTo(document.getElementById("graph_"+this.dashboard_id),1993);
     // Data
     this.line = new TimeSeries();
     $('#graph_div_'+this.dashboard_id).hide();
@@ -340,7 +340,8 @@ ajax_function_generalized=function(dashboard_obj)
             rowstring+="<li class='collection-item avatar'>";
             rowstring+="<img src='images/Ram-icon.png' alt='' class='circle'>";
             rowstring+="<span class=title'>Used Memory</span>";
-            rowstring+="<p>"+used_memory+"/"+total_memory+"</p>";
+            rowstring+="<p>"+used_memory+"/"+total_memory+"      <b>         "+Math.floor(percent_memory)+"% </b>"+"</p>";
+           // rowstring+="<p>"+Math.floor(percent_memory)+"%"+"</p>";
             rowstring+="<div style='width:200px; height:8px;background-color: #F0ED00'>";
             rowstring+="<div style='width:"+percent_memory+"%;height:8px;background-color: #1BA612;'></div></div>";
             rowstring+="</li>";
@@ -363,7 +364,7 @@ ajax_function_generalized=function(dashboard_obj)
             rowstring+="<li class='collection-item avatar'>";
             rowstring+="<img src='images/Cpu-icon.png' alt='' class='circle'>";
             rowstring+="<span class=title'>Load</span>";
-            rowstring+="<p>"+cpu+"</p>";
+            rowstring+="<p>"+cpu+"%"+"</p>";
             rowstring+="</li>";
 
             $('#graph_div_'+dashboard_obj.dashboard_id).show();
@@ -400,7 +401,7 @@ $(document).ready(function(){
         for (i = 0; i < dashboards.length ; i++) { 
             ajax_function_generalized(dashboards[i]);
         }
-    },5000);
+    },4993);
 });
         </script>
     </body>
