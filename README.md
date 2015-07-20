@@ -36,17 +36,13 @@ Download the most recent version of LiMON. Extract the files into directory ``` 
 ### 2. Getting Started  
 Below steps have been performed adn tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
 
-- RPM: ssh-pass -v1.0.5 (supplied with the app for convenience)
 
 #### PHP
 Install PHP
 ```
 sudo apt-get install php5
 ```
-Install sshpass rpm
-```
-sudo apt-get install -y sshpass rpm
-```
+
 #### Apache
 Install Apache
 ```
@@ -57,6 +53,11 @@ sudo apt-get install apache2
 sudo service apache2 restart
 ```
 
+#### SSHPASS
+Install sshpass rpm
+```
+sudo apt-get install -y sshpass rpm
+```
 
 ## Make it Run: ##
 
