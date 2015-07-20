@@ -34,29 +34,30 @@ Download the most recent version of LiMON. Extract the files into directory ``` 
 
 ```
 ### 2. Getting Started  
-Below steps have been performed adn tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
+Below steps have been performed and tested on Ubuntu 14.04 LTS. Please find the corresponding steps for your own platform/OS:
 
-- RPM: ssh-pass -v1.0.5 (supplied with the app for convenience)
 
 #### PHP
 Install PHP
 ```
 sudo apt-get install php5
 ```
-Install sshpass rpm
-```
-sudo apt-get install -y sshpass rpm
-```
+
 #### Apache
 Install Apache
 ```
 sudo apt-get install apache2
 ```
- Finally, restart Apache:
- ```
+Finally, restart Apache:
+```
 sudo service apache2 restart
 ```
 
+#### SSHPASS
+Install sshpass rpm
+```
+sudo apt-get install -y sshpass rpm
+```
 
 ## Make it Run: ##
 
@@ -66,7 +67,7 @@ its really very easy - just 2 step process!
  - run ``` nohup ./ping_test_and_script_generation & ```
 
 
-then browse http://your_server_ip/LiMON
+then browse ***http://your_server_ip/LiMON***
 
 That's it!! you have done your job. Now its time for him to take over!
 
