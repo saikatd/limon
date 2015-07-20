@@ -4,7 +4,7 @@
 A **light-weight** and simple **live** monitoring tool for **real-time monitoring** of performance of **multiple servers** on a **single dashboard**.
 
 
-[**DEMO**](https://live-server-monitor.herokuapp.com/) | [**Installation Instructions**](##Installation) 
+[**DEMO**](https://live-server-monitor.herokuapp.com/) | [**Installation Instructions**](#installation) 
 
 ------
 
